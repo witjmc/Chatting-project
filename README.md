@@ -36,7 +36,7 @@
     - Pinia 인스턴스 생성 및 vue 애플리케이션에 등록
     - socket 서버url 연결 및 vue 애플리케이션의 전역 속성에 소켓 인스턴스 추가
 3. App.vue (최상위 컴포넌트) 
-   - <router-link to="" />, <router-view />
+   - 태그 : router-link to="" , router-view 
 4. router/index.js
    - vue Router 인스턴스 생성  
 5. app.js
