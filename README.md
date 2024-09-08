@@ -51,7 +51,10 @@
                FOREIGN KEY (user_id) REFERENCES signup(id)
            );
 
-          
+    인증 관리 : jwt
+               # npm install bcrypt
+               # npm install jwt
+               # npm install axios 
 
  1. index.html 에서부터 시작
     - !DOCTYPE 문서 유형 선언은 html
