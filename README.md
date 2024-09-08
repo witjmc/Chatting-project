@@ -25,6 +25,34 @@
                # npm install pinia
 
 
+  mysql db 구조 설계 
+
+           command line client 접속 
+
+           # SHOW DATABASES; 
+           # CREATE DATABASE database_name;
+
+           - 회원가입 테이블
+           CREATE TABLE signup (
+               id INT AUTO_INCREMENT PRIMARY KEY,
+               username VARCHAR(255) NOT NULL,
+               email VARCHAR(255) NOT NULL UNIQUE,
+               password VARCHAR(255) NOT NULL
+           );
+
+           - 채팅 테이블
+           CREATE TABLE messages (
+               id INT AUTO_INCREMENT PRIMARY KEY,
+               text TEXT NOT NULL,
+               sender VARCHAR(255) NOT NULL,
+               timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+               status VARCHAR(50),
+               user_id INT,
+               FOREIGN KEY (user_id) REFERENCES signup(id)
+           );
+
+          
+
  1. index.html 에서부터 시작
     - !DOCTYPE 문서 유형 선언은 html
     - script type 은 module (ES 모듈)
@@ -46,3 +74,6 @@
    - SocketIO 서버 생성 및 http 연결
    - io 객체를 통해서 클라이언트와 실시간 연결 관리
    - socket.io 서버의 cors 설정/ express 앱의 cors 설정
+  
+
+ 
