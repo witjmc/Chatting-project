@@ -2,11 +2,13 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import ChatView from '../views/ChatView.vue';
 import SignupView from '../views/SignupView.vue';
+import LoginView from '../views/LoginView.vue';
 
 const routes = [
     { path: '/', component: HomeView },
     { path: '/chat', component: ChatView },
     { path: '/signup', component: SignupView },
+    { path: '/login', component: LoginView },
 ];
 
 const router = createRouter({
