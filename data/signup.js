@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { fetchData } from './data'; // Ensure the path is correct;
 import router from '../router';
-import signup from '../views/HomeView.vue';
+import signup from '../views/SignupView.vue';
 
 export const useSignupStore = defineStore('signup', {
     id: 'signup',
@@ -44,15 +44,23 @@ export const useSignupStore = defineStore('signup', {
 
     actions: {
         async submit() {
-            const response = await signup.submit(this.$state);
+            try {
+                const response = await submitSignup({
+                    email: this.email,
+                    password: this.password,
+                });
 
-            if (response.data.errorCode) {
-                alert(response.data.errorMessage);
-                return;
+                if (response.data.errorCode) {
+                    alert(response.data.errorMessage);
+                    return;
+                }
+
+                alert('회원가입이 완료되었습니다.');
+                router.push({ path: '/' });
+            } catch (error) {
+                console.error('Signup failed:', error);
+                alert('회원가입 중 오류가 발생했습니다.');
             }
-
-            alert('회원가입이 완료되었습니다.');
-            router.push({ path: '/' });
         },
     },
 });
