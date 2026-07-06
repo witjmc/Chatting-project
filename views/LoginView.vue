@@ -21,7 +21,12 @@
 import { ref, computed } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router'; // useRouter를 import
+import { useUserStore } from '../data/user.js';
 
+// store 호출
+const userStore = useUserStore();
+console.log('userStore.username:1', userStore.username);
+    
 // 라우터 객체 생성
 const router = useRouter();
 
@@ -38,6 +43,12 @@ const canLogin = computed(() => loginEmail.value && loginPassword.value);
 
 const handleLogin = async () => {
     try {
+        //  서버에서 로그인 요청을 하여 db 조회로 response로 id, token, username을 클라이언트로 전달한다
+        //  클라이언트의 LoginView에서는 axios를 통해 이 응답 데이터를 받아오고,
+        //  그 값을 Pinia store의 setUser를 이용해 상태로 저장한다.
+        //  이후 ChatView에서는 Pinia store에 저장된 username을 가져와 
+        //  화면에 표시하거나 채팅 메시지에 활용한다.
+        
         const response = await axios.post(
             'http://localhost:5000/login',
             {
@@ -47,14 +58,25 @@ const handleLogin = async () => {
             { withCredentials: true }
         );
 
+        
+        const { token, id, username } = response.data;
         console.log('response.data:', response.data);
-        const { token, id } = response.data;
         // localStorage는 브라우저 API입니다. 소규모 프로젝트에서는 사용할 수 있지만,
         // 보안에 취약하므로 실무에서는 HttpOnly Cookie 방식을 사용하는 것을 권장합니다.  (2026.07.06 추가)
         localStorage.setItem('token', response.data.token);
 
         localStorage.setItem('user_id', id);
 
+
+        // store 또는 localStorage 에다 넣는다.
+        userStore.setUser({ token, id, username });
+
+        console.log('userStore.username:2', userStore.setUser.username);
+
+        console.log('userStore.username:3', userStore.getUsername);
+
+
+        
         alert('로그인 성공');
         // 로그인 성공 시 chatView로 이동
         router.push('/chat');
