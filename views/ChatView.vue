@@ -10,6 +10,7 @@
                 >
                     <div class="message-header">
                         <span class="message-sender">{{ msg.sender }}</span>
+                        <span class="message-username">{{ msg.username }}</span>
                         <span class="message-time">{{ msg.timestamp }}</span>
                     </div>
                     <span class="message-content">{{ msg.text }}</span>
@@ -36,6 +37,17 @@
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick } from 'vue';
 import { io } from 'socket.io-client';
+import { useUserStore } from '../data/user.js';
+
+//store 호출 
+// 클라이언트 loginview 에서 store 로 저장한 username 호출 
+const userStore = useUserStore();
+
+const username = computed(() => userStore.username);
+console.log('store username:', userStore.username);
+console.log('computed username:', username.value);
+
+    
 
 const message = ref('');
 const userId = ref(); // 로그인한 사용자의 user_id
@@ -67,6 +79,7 @@ const sendMessage = () => {
         timestamp,
         status: '',
         user_id: parseInt(userId.value, 10), // user_id 추가
+        username: username.value,
     });
     message.value = '';
 };
@@ -189,6 +202,11 @@ onUnmounted(() => {
 .message-sender {
     font-weight: bold;
 }
+
+.message-username {
+    font-weight: bold;
+}
+
 
 .message-time {
     font-style: italic;
