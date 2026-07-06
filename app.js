@@ -84,18 +84,20 @@ app.post('/signup', async (req, res) => {
     }
 });
 
-// 로그인 처리
+// 로그인 요청 처리
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     try {
+         //db 조회해서,username 가져오기
         const [rows] = await masterPool.query('SELECT * FROM signup WHERE email = ?', [email]);
         const user = rows[0]; // 첫 번째 결과를 사용자로 할당
 
         if (user && (await bcrypt.compare(password, user.password))) {
             // 비밀번호가 일치할 경우 토큰 생성
             const token = jwt.sign({ id: user.id }, 'your_secret_key', { expiresIn: '1h' });
-            res.json({ token, id: user.id });
+            // response 로 클라이언트에 전달한다.
+            res.json({ token, id: user.id, username: user.username });
         } else {
             // 이메일 또는 비밀번호가 틀릴 경우
             res.status(401).json({ error: '잘못된 이메일 또는 비밀번호' });
@@ -108,6 +110,12 @@ app.post('/login', async (req, res) => {
 
 io.on('connection', (socket) => {
     console.log('a user connected: ' + socket.id);
+
+    socket.on('chat message', (data) => {
+    
+        console.log("받은 데이터:", data);
+    
+    });
 
     socket.on('chat message', async (msg) => {
         const { id, text, sender, timestamp, status, user_id } = msg; // user_id 추가
