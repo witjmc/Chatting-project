@@ -50,7 +50,7 @@ const handleLogin = async () => {
         console.log('response.data:', response.data);
         const { token, id } = response.data;
         // localStorage는 브라우저 API입니다. 소규모 프로젝트에서는 사용할 수 있지만,
-        // 보안에 취약하므로 실무에서는 HttpOnly Cookie 방식을 사용하는 것을 권장합니다.
+        // 보안에 취약하므로 실무에서는 HttpOnly Cookie 방식을 사용하는 것을 권장합니다.  (2026.07.06 추가)
         localStorage.setItem('token', response.data.token);
 
         localStorage.setItem('user_id', id);
