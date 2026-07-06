@@ -78,5 +78,7 @@
    - io 객체를 통해서 클라이언트와 실시간 연결 관리
    - socket.io 서버의 cors 설정/ express 앱의 cors 설정
   
-
+* pinia : 로그인 정보 / 상태 공유
+* socket : 실시간 통신
+* router : 페이지 이동 
  
